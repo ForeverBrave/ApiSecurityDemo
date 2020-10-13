@@ -14,4 +14,9 @@ public interface SysBlacklistService {
      */
     int count(String ip);
 
+    /**
+     * 新增黑名单
+     * @param ip
+     */
+    void add(String ip);
 }

@@ -3,6 +3,7 @@ package com.it.demo.aop;
 import com.it.demo.annotation.ApiSecurity;
 import com.it.demo.constant.CacheConstant;
 import com.it.demo.excetion.ApiSecurityException;
+import com.it.demo.service.SysBlacklistService;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.Signature;
@@ -31,6 +32,8 @@ public class ApiSecurityAOP {
 
     @Autowired
     private RedisTemplate redisTemplate;
+    @Autowired
+    private SysBlacklistService sysBlacklistService;
 
     @Before("@annotation(apiSecurity)")
     public void around(ProceedingJoinPoint point, ApiSecurity apiSecurity){
@@ -62,8 +65,8 @@ public class ApiSecurityAOP {
 
         // 检查访问次数是否大于注解定义的次数
         if(num > apiSecurity.count()){
-            // TODO 数据库新增黑名单
-
+            // 新增黑名单
+            sysBlacklistService.add(ip);
             throw new ApiSecurityException("不能重复请求");
         }
 

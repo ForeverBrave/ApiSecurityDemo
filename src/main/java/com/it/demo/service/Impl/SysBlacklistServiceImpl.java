@@ -25,4 +25,13 @@ public class SysBlacklistServiceImpl implements SysBlacklistService {
     public int count(String ip) {
         return sysBlacklistMapper.count(ip);
     }
+
+    /**
+     * 新增黑名单
+     * @param ip
+     */
+    @Override
+    public void add(String ip) {
+        sysBlacklistMapper.add(ip);
+    }
 }
