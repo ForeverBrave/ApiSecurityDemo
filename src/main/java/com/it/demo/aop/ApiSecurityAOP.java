@@ -61,6 +61,7 @@ public class ApiSecurityAOP {
         if(num == null){
             // 若没访问过，则存入redis并将注解中的时间段设置为过期时间
             redisTemplate.opsForValue().set(key, 1, apiSecurity.second(), TimeUnit.SECONDS);
+            return;
         }
 
         // 检查访问次数是否大于注解定义的次数
